@@ -1,0 +1,17 @@
+{
+  "name": "storybooks",
+  "version": "1.0.0",
+  "description": "App to share public or write private stories",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon src/index.js -e js,hbs,css,handlebars"
+  },
+  "author": "Abdullah Alrefaey",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.8.2",
+    "nodemon": "^2.0.2"
+  }
+}
