@@ -1,22 +1,27 @@
+// This file is used to handle passport configurations and authentication
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const keys = require('./keys');
 
 // Load user model
-const User = mongoose.model('users')
+const User = mongoose.model('users');
+
 module.exports = function (passport)
 {
+    // define the strategy
     passport.use(
         new GoogleStrategy({
             clientID: keys.googleClientID,
             clientSecret: keys.googleClientSecret,
             callbackURL: '/auth/google/callback',
-            proxy: true
+            proxy: true // when we deploy an application it will use https
         }, (accessToken, refreshToken, profile, done) => {
+            // the callback function gives us some information
             // console.log(accessToken);
             // console.log(profile);
             // const image = profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'));
 
+            // add user to db
             const newUser = {
                 googleID: profile.id,
                 firstName: profile.name.givenName,

@@ -3,12 +3,21 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+
+// Used to handle google oauth
 const passport = require('passport');
+
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const exphbs = require('express-handlebars');
+
+// Used to set up port number either in dev or production mode
 const port = process.env.PORT || 5000;
+
 app = express();
+
+// Import function exported by newly installed node modules.
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
 // Load User Model
 require('./models/User');
@@ -17,7 +26,7 @@ require('./models/Story');
 // Load Keys
 const keys = require('./config/keys');
 
-// Passport Config
+// Passport Configuration
 require('./config/passport')(passport);
 
 // Load routes
@@ -31,6 +40,7 @@ const { truncate,
         formatDate, 
         select, 
         editIcon } = require('./helpers/hbs');
+const handlebars = require('handlebars');
 
 // Mongoose Connect
 mongoose.connect(keys.mongoURI, {
@@ -58,7 +68,9 @@ app.engine('handlebars', exphbs({
         select: select,
         editIcon: editIcon
     },
-    defaultLayout:'main'
+    defaultLayout:'main',
+    // ...implement newly added insecure prototype access
+    handlebars: allowInsecurePrototypeAccess(handlebars)
  }));
 app.set('view engine', 'handlebars');
 
@@ -83,13 +95,16 @@ app.use((req, res, next) => {
 });
 
 // Set Static Folders
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+// Using Static Middleware to allow the browser to view the static files (css, images, etc.)
+app.use(express.static('public'));
 
 // Use Routes
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/stories', stories);
 
+// Listen the app to the given port
 app.listen(port, () => {
     console.log(`Server started at ${port}`);
 });
