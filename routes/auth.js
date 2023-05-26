@@ -19,6 +19,7 @@ router.get('/google/callback',
 
 // Verify User
 router.get('/verify', (req, res) => {
+    // if we are authenticated we should have access to req.user
     if(req.user)
     {
         console.log(req.user);

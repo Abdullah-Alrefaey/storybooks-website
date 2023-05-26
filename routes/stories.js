@@ -7,9 +7,11 @@ const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
 // Stories Index
 router.get('/', (req, res) => {
+    // fetch the public stories only from the db to show it
     Story.find({
         status: 'public'
     })
+    // This will populate the user with all its fields from the User Collection
     .populate('user')
     .sort({
         date: 'desc'
@@ -29,14 +31,17 @@ router.get('/show/:id', (req, res) => {
     .populate('user')
     .populate('comments.commentUser')
     .then(story => {
+        // if the story is public, just show it.
         if (story.status == 'public')
         {
             res.render('stories/show', {
                 story: story
             });
         }
+        // in case of a private story, we need some checks
         else
         {
+            // check if user is logged in, check if he is the story owner
             if (req.user)
             {
                 if (req.user.id == story.user._id)
@@ -98,6 +103,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
         _id: req.params.id
     })
     .then(story => {
+        // we want to make sure that the logged user is the owner of story
         if (story.user != req.user.id)
         {
             res.redirect('/stories');
@@ -194,6 +200,7 @@ router.post('/comment/:id', (req, res) => {
         }
 
         // add to comments array
+        // unshift adds to the beginning
         story.comments.unshift(newComment);
 
         story.save()

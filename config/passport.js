@@ -21,7 +21,7 @@ module.exports = function (passport)
             // console.log(profile);
             // const image = profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'));
 
-            // add user to db
+            // add the new user to db
             const newUser = {
                 googleID: profile.id,
                 firstName: profile.name.givenName,
@@ -36,6 +36,7 @@ module.exports = function (passport)
             }).then(user => {
                 if(user)
                 {
+                    // done is a callback for any strategy (1st is error, we don't have error so we pass null)
                     // Return User
                     done(null, user);
                 }
@@ -52,6 +53,7 @@ module.exports = function (passport)
         })
     );
 
+    // we need to add these
     passport.serializeUser((user, done) => {
         done(null, user.id);
     })

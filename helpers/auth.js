@@ -1,3 +1,5 @@
+// This file is used to help us to restrict routes
+// we need to make sure if the user is authenticated or not. (used as a middleware)
 const ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated())
     {

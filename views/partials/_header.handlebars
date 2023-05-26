@@ -7,6 +7,7 @@
             {{!-- Right Nav --}}
 
             <ul class="right hide-on-small-only">
+                <!-- user is a global variable, we check if the user is logged in or not -->
                 {{#if user}}
                     <li><a href="/dashboard">Welcome {{user.firstName}}</a></li>
                     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>

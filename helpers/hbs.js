@@ -1,5 +1,7 @@
+// helper functions to be used with handlebars view engine
 const moment = require('moment');
 
+// truncate the string in specific length
 const truncate = (str, len) => {
     if (str.length > len && str.length > 0)
     {
@@ -12,6 +14,7 @@ const truncate = (str, len) => {
     return str;
 }
 
+// use regex to strip any html tags
 const stripTags = (input) => {
     return input.replace(/<(?:.|\n)*?>/gm, '');
 }
@@ -20,12 +23,14 @@ const formatDate = (date, format) => {
     return moment(date).format(format);
 }
 
+// used to handle select option in edit story form
 const select = (selected, options) => {
     return options.fn(this).replace( new RegExp(' value=\"' + selected + '\"'), 
     '$& selected="selected"').replace( new RegExp('>' + selected + '</option>'), 
     ' selected="selected"$&');
 }
 
+// used to handle edit Icon in stories page and edit story page
 const editIcon = (storyUser, loggedUser, storyId, floating = true) => {
     if (storyUser == loggedUser)
     {
