@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Story = mongoose.model('stories');
+// const Story = mongoose.model('stories');
+const Story = require('../models/Story');
 const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
-// Welcome Route
+// Route to the Welcome Page
 // we don't need the user to go back to the welcome page if he is logged in.
 router.get('/', ensureGuest, (req, res) => {
     res.render('index/welcome');

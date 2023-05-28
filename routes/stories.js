@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Story = mongoose.model('stories');
-const User = mongoose.model('users');
+// const Story = mongoose.model('stories');
+const Story = require('../models/Story');
+// const User = mongoose.model('users');
 const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
 // Stories Index
@@ -79,7 +80,7 @@ router.get('/user/:userId/', (req, res) => {
     })
 });
 
-// Logged in users stories
+// Logged-in users stories
 router.get('/my', ensureAuthenticated, (req, res) => {
     Story.find({
         user: req.user.id
