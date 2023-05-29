@@ -37,7 +37,6 @@ app = express();
 // Import function exported by newly installed node modules.
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
-// TODO: remove this and refactor models export function
 // Load User Model
 // require('./models/User');
 // require('./models/Story');
@@ -71,7 +70,6 @@ mongoose.connect(keys.mongoURI, {
     console.log(err);
 })
 
-// TODO: Refactor this with the updated express.urlencoded
 // body-parser Setup
 // to get access to (req.body, req.title, req.status, etc.)
 // parse application/x-www-form-urlencoded, basically can only parse incoming Request Object if strings or arrays
@@ -106,10 +104,12 @@ app.set('view engine', 'handlebars');
 // Cookie Parser Middleware
 // Define Cookie-parser usage so that the server can access
 // the necessary option to save, read and access a cookie.
+// This middleware parses cookies from the request header and makes them available in the request object
 app.use(cookieParser());
 
 // Session Middleware
 // must be above passport middleware because passport uses session
+// This middleware creates a session object for each user and makes it available in the request object
 app.use(session({
     genid: function(req) {
       return randomUUID(); // use UUIDs for session IDs
