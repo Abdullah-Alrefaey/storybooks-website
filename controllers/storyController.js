@@ -47,7 +47,7 @@ const story_show = (req, res) => {
             // check if user is logged in, check if he is the story owner
             if (req.user)
             {
-                if (req.user.id === story.user._id)
+                if (req.user.id === story.user.id)
                 {
                     res.render('stories/show', {
                         story: story
