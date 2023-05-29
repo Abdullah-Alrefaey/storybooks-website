@@ -35,7 +35,7 @@ const story_show = (req, res) => {
     .populate('comments.commentUser')
     .then(story => {
         // if the story is public, just show it.
-        if (story.status == 'public')
+        if (story.status === 'public')
         {
             res.render('stories/show', {
                 story: story
@@ -47,7 +47,7 @@ const story_show = (req, res) => {
             // check if user is logged in, check if he is the story owner
             if (req.user)
             {
-                if (req.user.id == story.user._id)
+                if (req.user.id === story.user._id)
                 {
                     res.render('stories/show', {
                         story: story
@@ -62,7 +62,6 @@ const story_show = (req, res) => {
             {
                 res.redirect('/stories');
             }
-
         }
 
     });
@@ -128,9 +127,10 @@ const story_edit_get = (req, res) => {
     Story.findOne({
         _id: req.params.id
     })
+    .populate('user')
     .then(story => {
         // we want to make sure that the logged user is the owner of story
-        if (story.user != req.user.id)
+        if (story.user.id !== req.user.id)
         {
             res.redirect('/stories');
         }
@@ -140,7 +140,6 @@ const story_edit_get = (req, res) => {
                 story: story
             });
         }
-
     });
 };
 
