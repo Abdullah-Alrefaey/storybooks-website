@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Story = require('../models/Story');
 const {ensureAuthenticated} = require('../helpers/auth');
 const storyController = require('../controllers/storyController');
 
@@ -16,6 +15,7 @@ router.put('/:id', ensureAuthenticated, storyController.story_edit_put);
 router.delete('/:id', ensureAuthenticated, storyController.story_delete);
 router.post('/comment/:id', ensureAuthenticated, storyController.story_comment_post);
 
+module.exports = router;
 
 // router.get('/', (req, res) => {
 //     // fetch the public stories only from the db to show it
@@ -220,4 +220,3 @@ router.post('/comment/:id', ensureAuthenticated, storyController.story_comment_p
 //     })
 // });
 
-module.exports = router;
