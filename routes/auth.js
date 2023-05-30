@@ -5,7 +5,6 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 router.get('/google', authController.auth_google);
-// router.get('/google/callback', authController.auth_google_callback);
 router.get('/google/callback', authController.auth_google_callback, authController.auth_google_callback_redirect);
 router.get('/verify', authController.auth_verify);
 router.get('/logout', authController.auth_logout);

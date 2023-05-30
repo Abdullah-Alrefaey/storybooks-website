@@ -9,15 +9,6 @@ const auth_google_callback =
         { failureRedirect: '/', failureMessage: true },
     );
 
-// const auth_google_callback =
-//     passport.authenticate('google',
-//         { failureRedirect: '/', failureMessage: true },
-//         (req, res) => {
-//             // auth_google_callback_redirect()
-//             res.redirect('/dashboard');
-//         }
-//     );
-
 const auth_google_callback_redirect = (req, res) => {
     // Successful authentication, redirect dashboard.
     res.redirect('/dashboard');

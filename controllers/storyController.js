@@ -1,4 +1,5 @@
 const Story = require('../models/Story');
+const { validationResult, checkSchema } = require('express-validator');
 
 // These function names are like MDN convention
 // story_index, story_details, story_create_get, story_create_post, story_delete
@@ -96,7 +97,7 @@ const story_add_get = (req, res) => {
     res.render('stories/add');
 };
 
-const story_add_post = (req, res) => {
+const story_add_post = async (req, res, next) => {
     // if (req.body.allowComments)
     // {
     //     allowComments = true;
@@ -105,22 +106,37 @@ const story_add_post = (req, res) => {
     // {
     //     allowComments = false;
     // }
-    let allowComments = !!req.body.allowComments;
 
-    const newStory = {
-        title: req.body.title,
-        body: req.body.body,
-        status: req.body.status,
-        allowComments: allowComments,
-        user: req.user.id
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                errors: errors.array(),
+            });
+        }
+
+        let allowComments = !!req.body.allowComments;
+
+        const newStory = {
+            title: req.body.title,
+            body: req.body.body,
+            status: req.body.status,
+            allowComments: allowComments,
+            user: req.user.id
+        }
+
+        // Create Story
+        new Story(newStory)
+        .save()
+        .then(story => {
+            res.redirect(`/stories/show/${story.id}`);
+        })
     }
-
-    // Create Story
-    new Story(newStory)
-    .save()
-    .then(story => {
-        res.redirect(`/stories/show/${story.id}`);
-    })
+    catch (err) {
+        next(err);
+    }
 };
 
 const story_edit_get = (req, res) => {
