@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {ensureAuthenticated} = require('../helpers/auth');
+const {ensureAuthenticated} = require('../middlewares/auth');
 const storyController = require('../controllers/storyController');
 const { checkSchema } = require('express-validator');
-const { storySchema, validateRequest, storyDataValidationChainMethod } = require('../validations/storyValidation');
+const { storyDataValidationChainMethod } = require('../validations/storyValidation');
+const { storyCommentValidation} = require('../validations/storyCommentValidation');
 
 // Stories Index
 router.get('/', storyController.story_index);
@@ -22,7 +23,7 @@ router.post("/", ensureAuthenticated,
 router.get('/edit/:id', ensureAuthenticated, storyController.story_edit_get);
 router.put('/:id', ensureAuthenticated, storyController.story_edit_put);
 router.delete('/:id', ensureAuthenticated, storyController.story_delete);
-router.post('/comment/:id', ensureAuthenticated, storyController.story_comment_post);
+router.post('/comment/:id', ensureAuthenticated, storyCommentValidation, storyController.story_comment_post);
 
 module.exports = router;
 

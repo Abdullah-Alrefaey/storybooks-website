@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
+const {ensureAuthenticated, ensureGuest} = require('../middlewares/auth');
 const indexController = require('../controllers/indexController');
 
 router.get('/', ensureGuest, indexController.index);

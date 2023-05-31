@@ -188,25 +188,39 @@ const story_delete = (req, res) => {
     });
 };
 
-const story_comment_post = (req, res) => {
-    Story.findOne({
-        _id: req.params.id
-    })
-    .then(story => {
-        const newComment = {
-            commentBody: req.body.commentBody,
-            commentUser: req.user.id
+const story_comment_post = (req, res, next) => {
+
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                errors: errors.array(),
+            });
         }
 
-        // add to comments array
-        // unshift adds to the beginning
-        story.comments.unshift(newComment);
-
-        story.save()
-        .then(story => {
-            res.redirect(`/stories/show/${story.id}`);
+        Story.findOne({
+            _id: req.params.id
         })
-    })
+        .then(story => {
+            const newComment = {
+                commentBody: req.body.commentBody,
+                commentUser: req.user.id
+            }
+
+            // add to comments array
+            // unshift adds to the beginning
+            story.comments.unshift(newComment);
+
+            story.save()
+            .then(story => {
+                res.redirect(`/stories/show/${story.id}`);
+            })
+        })
+    } catch (err) {
+        next(err);
+    }
 };
 
 module.exports = {
