@@ -1,10 +1,8 @@
 // This file is used to handle passport configurations and authentication
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const mongoose = require('mongoose');
 const keys = require('./keys');
 
 // Load user model
-// const User = mongoose.model('users');
 const User = require('../models/User');
 
 module.exports = function (passport)
@@ -37,7 +35,7 @@ module.exports = function (passport)
             }).then(user => {
                 if(user)
                 {
-                    // done is a callback for any strategy (1st is error, we don't have error so we pass null)
+                    // done is a callback for any strategy (1st is error, we don't have error, so we pass null)
                     // Return User
                     done(null, user);
                 }

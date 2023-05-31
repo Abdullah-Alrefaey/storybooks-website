@@ -1,8 +1,5 @@
 const Story = require('../models/Story');
-const { validationResult, checkSchema } = require('express-validator');
-
-// These function names are like MDN convention
-// story_index, story_details, story_create_get, story_create_post, story_delete
+const { validationResult } = require('express-validator');
 
 /*
   * Fetch all the public stories from the database then render the story index page
@@ -108,6 +105,7 @@ const story_add_post = async (req, res, next) => {
     // }
 
     try {
+        // Error handling with express-validator
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {

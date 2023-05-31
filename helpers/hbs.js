@@ -5,7 +5,7 @@ const moment = require('moment');
 const truncate = (str, len) => {
     if (str.length > len && str.length > 0)
     {
-        var new_str = str + " ";
+        let new_str;
         new_str = str.substring(0, len);
         new_str = str.substring(0, new_str.lastIndexOf(" "));
         new_str = (new_str.length > 0) ? new_str : str.substring(0, len);
@@ -32,7 +32,7 @@ const select = (selected, options) => {
 
 // used to handle edit Icon in stories page and edit story page
 const editIcon = (storyUser, loggedUser, storyId, floating = true) => {
-    if (storyUser == loggedUser)
+    if (storyUser === loggedUser)
     {
         if (floating)
         {

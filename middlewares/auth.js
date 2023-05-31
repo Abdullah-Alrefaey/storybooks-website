@@ -21,7 +21,6 @@ const ensureGuest = function (req, res, next) {
         return next();
     }
 }
- 
 
 module.exports = {
     ensureAuthenticated,

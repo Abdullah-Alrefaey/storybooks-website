@@ -11,7 +11,6 @@ const auth_google_callback =
 
 const auth_google_callback_redirect = (req, res) => {
     // Successful authentication, redirect dashboard.
-    // res.send('  gfgdgd d');
     res.redirect('/dashboard');
 };
 
